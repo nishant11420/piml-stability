@@ -1,0 +1,71 @@
+╔══════════════════════════════════════════════════════════╗
+║   Physics-Informed ML  –  Stability Lobe Diagram        ║
+║   EXCEL MODE                                             ║
+╚══════════════════════════════════════════════════════════╝
+
+──────────────────────────────────────────────────────────
+  Step 1: Load stability boundary
+──────────────────────────────────────────────────────────
+  Units detected: metres → converted to mm
+  Loaded: 18001 points  |  rpm 2000 – 20000  |  ap  1.19 – 14.17 mm
+
+──────────────────────────────────────────────────────────
+  Step 2: Generate labelled experiments from boundary
+──────────────────────────────────────────────────────────
+  Experiments: 30 stable  +  30 chatter
+
+──────────────────────────────────────────────────────────
+  Step 3: Build surrogate dataset + train MLPs
+──────────────────────────────────────────────────────────
+  PyTorch not found → surrogates skipped.
+  MAP will use prior mean. Install torch for full physics.
+
+──────────────────────────────────────────────────────────
+  Step 4: MAP posterior inference (Chen et al.)
+──────────────────────────────────────────────────────────
+  60 labelled cuts  |  lr=0.002  epochs=200
+  PyTorch not found → using prior mean as posterior (no MAP)
+
+  Posterior mean w*: [ 0.7827  0.7528  0.0184  0.0186  6.5616  4.8852 10.95    1.76  ]
+
+──────────────────────────────────────────────────────────
+  Step 5: Monte Carlo SLD  (100 samples)
+──────────────────────────────────────────────────────────
+  MC sample 1/100
+  MC sample 21/100
+  MC sample 41/100
+  MC sample 61/100
+  MC sample 81/100
+  MC sample 100/100
+  MC SLD  →  max p_chatter = 1.000
+
+──────────────────────────────────────────────────────────
+  Step 6: Bayesian stability map  +  E[I(MRR)] closed-loop
+──────────────────────────────────────────────────────────
+  Test  1:  Ω =   13200 rpm  ap = 2.29 mm   stable  
+  Test  2:  Ω =   13200 rpm  ap = 2.29 mm   stable  
+
+  Converged at test 2. Optimal: Ω=13200 rpm, ap=2.29 mm
+
+  Closed-loop summary: 2 stable, 0 chatter in 2 tests
+
+──────────────────────────────────────────────────────────
+  Step 7: Fuse MC SLD + Bayesian map
+──────────────────────────────────────────────────────────
+  Fusion  α=0.6  →  p_chatter  min=0.156  max=1.000
+  Data saved  →  results\sld.npz
+
+──────────────────────────────────────────────────────────
+  Step 8: Plot
+──────────────────────────────────────────────────────────
+
+  Figure saved  →  results\sld.png
+  Figure saved  →  results\sld.svg
+
+╔══════════════════════════════════════════════════════════╗
+║   Done!  Results in:  results/sld.png                   ║
+║                       results/sld.svg                   ║
+║                       results/sld.npz                   ║
+╚══════════════════════════════════════════════════════════╝
+
+
